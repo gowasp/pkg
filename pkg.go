@@ -26,7 +26,7 @@ func (s *Subscribe) GetTopics() []string {
 	strs := make([]string, 0)
 	s.subMap.Range(func(key, value interface{}) bool {
 		strs = append(strs, key.(string))
-		return false
+		return true
 	})
 	return strs
 }
