@@ -11,8 +11,8 @@ type Subscribe struct {
 	subMap sync.Map
 }
 
-func (s *Subscribe) Subscribe(topicID string, f SubFunc) {
-	s.subMap.Store(topicID, f)
+func (s *Subscribe) Subscribe(topic string, f SubFunc) {
+	s.subMap.Store(topic, f)
 }
 
 func (s *Subscribe) Get(topic string) SubFunc {
