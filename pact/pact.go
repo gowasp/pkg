@@ -62,9 +62,10 @@ func (t Type) PvtDecode(body []byte) (int, byte, []byte) {
 	return v, body[n], body[n+1:]
 }
 
-func (t Type) PvtEncode(seq int, topicID byte, body []byte) []byte {
-	b := append([]byte{topicID}, body...)
-	seqBody := append(EncodeVarint(seq), b...)
+func PvtPubAckEncode(seq int) []byte {
+	seqBody := EncodeVarint(seq)
 
-	return append([]byte{byte(t)}, EncodeVarint(len(seqBody))...)
+	v := append(EncodeVarint(len(seqBody)), seqBody...)
+
+	return append([]byte{byte(PVTPUBACK)}, v...)
 }
