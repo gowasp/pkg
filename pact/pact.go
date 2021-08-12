@@ -54,6 +54,11 @@ func (t Type) Encode(body []byte) []byte {
 	return cbody
 }
 
+func PubDecode(body []byte) (int, string, []byte) {
+	v, n := DecodeVarint(body)
+	return v, string(body[n+1 : n+1+int(body[n])]), body[n+1+int(body[n]):]
+}
+
 // int: seq.
 // byte: topicID.
 // []byte: remaining content.
