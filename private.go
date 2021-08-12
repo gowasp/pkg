@@ -9,7 +9,7 @@ type Private struct {
 	subMap sync.Map
 }
 
-type PvtSubFunc func(context.Context, []byte)
+type PvtSubFunc func(context.Context, []byte) error
 
 func (ps *Private) Subscribe(topicID byte, f PvtSubFunc) {
 	ps.subMap.Store(topicID, f)
