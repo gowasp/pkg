@@ -22,7 +22,7 @@ func (s *Subscribe) Get(topic string) SubFunc {
 	return nil
 }
 
-func (s *Subscribe) GetTopics(topic string) []string {
+func (s *Subscribe) GetTopics() []string {
 	strs := make([]string, 0)
 	s.subMap.Range(func(key, value interface{}) bool {
 		strs = append(strs, key.(string))
