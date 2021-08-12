@@ -9,15 +9,15 @@ type Private struct {
 	subMap sync.Map
 }
 
-type pvtSubFunc func(context.Context, []byte)
+type PvtSubFunc func(context.Context, []byte) error
 
-func (ps *Private) Subscribe(topicID byte, f pvtSubFunc) {
+func (ps *Private) Subscribe(topicID byte, f PvtSubFunc) {
 	ps.subMap.Store(topicID, f)
 }
 
-func (ps *Private) Get(topicID byte) pvtSubFunc {
+func (ps *Private) Get(topicID byte) PvtSubFunc {
 	if v, ok := ps.subMap.Load(topicID); ok {
-		return v.(pvtSubFunc)
+		return v.(PvtSubFunc)
 	}
 	return nil
 }
