@@ -63,7 +63,9 @@ func PubEncode(seq int, topic string, body []byte) []byte {
 	t := append([]byte(topic), body...)
 	t1 := append([]byte{byte(len(t))}, t...)
 	s := append(EncodeVarint(seq), t1...)
-	return append([]byte{byte(PUBLISH)}, s...)
+
+	b := append(EncodeVarint(len(s)), s...)
+	return append([]byte{byte(PUBLISH)}, b...)
 }
 
 // int: seq.
