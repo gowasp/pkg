@@ -57,7 +57,7 @@ func (t Type) Encode(body []byte) []byte {
 // int: seq.
 // byte: topicID.
 // []byte: remaining content.
-func (t Type) PvtDecode(body []byte) (int, byte, []byte) {
+func PvtPubDecode(body []byte) (int, byte, []byte) {
 	v, n := DecodeVarint(body)
 	return v, body[n], body[n+1:]
 }
