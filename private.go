@@ -1,12 +1,15 @@
 package pkg
 
-import "sync"
+import (
+	"context"
+	"sync"
+)
 
 type Private struct {
 	subMap sync.Map
 }
 
-type pvtSubFunc func(int, []byte)
+type pvtSubFunc func(context.Context, []byte)
 
 func (ps *Private) Subscribe(topicID byte, f pvtSubFunc) {
 	ps.subMap.Store(topicID, f)
