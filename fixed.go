@@ -54,9 +54,8 @@ func (f Fixed) Encode(body []byte) []byte {
 	return cbody
 }
 
-func PubDecode(body []byte) (int, string, []byte) {
-	v, n := DecodeVarint(body)
-	return v, string(body[n+1 : n+1+int(body[n])]), body[n+1+int(body[n]):]
+func PubDecode(body []byte) ([]byte, []byte) {
+	return body[1 : 1+body[0]], body[1+body[0]:]
 }
 
 func PubEncode(seq int, topic string, body []byte) []byte {
