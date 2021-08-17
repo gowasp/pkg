@@ -30,18 +30,3 @@ func (s *Subscribe) GetTopics() []string {
 	})
 	return strs
 }
-
-type Private struct {
-	subMap sync.Map
-}
-
-func (ps *Private) Subscribe(topicID byte, f SubFunc) {
-	ps.subMap.Store(topicID, f)
-}
-
-func (ps *Private) Get(topicID byte) SubFunc {
-	if v, ok := ps.subMap.Load(topicID); ok {
-		return v.(SubFunc)
-	}
-	return nil
-}
