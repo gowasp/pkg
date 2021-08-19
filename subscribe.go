@@ -5,7 +5,7 @@ import (
 	"sync"
 )
 
-type SubFunc func(context.Context, []byte) error
+type SubFunc func(context.Context, []byte)
 
 type Subscribe struct {
 	subMap sync.Map
