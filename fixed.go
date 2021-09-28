@@ -64,6 +64,14 @@ func PubEncode(topic string, body []byte) []byte {
 	return append([]byte{byte(FIXED_PUBLISH)}, b...)
 }
 
+func PubEncodeSeq(seq int, topic string, body []byte) []byte {
+	t := append([]byte(topic), body...)
+	tl := append([]byte{byte(len(topic))}, t...)
+
+	idbody := append(EncodeVarint(seq), tl...)
+	return FIXED_PUBLISH.Encode(idbody)
+}
+
 func PubDecodeSeq(body []byte) (int, string, []byte) {
 	v, n := DecodeVarint(body)
 	return v, string(body[n+1 : n+1+int(body[n])]), body[n+1+int(body[n]):]
