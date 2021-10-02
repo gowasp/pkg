@@ -74,5 +74,10 @@ func PubEncodeSeq(seq int, topic string, body []byte) []byte {
 
 func PubDecodeSeq(body []byte) (int, string, []byte) {
 	v, n := DecodeVarint(body)
+	begin := n + 1
+	end := n + 1 + int(body[n])
+	if end <= begin {
+		return 0, "", nil
+	}
 	return v, string(body[n+1 : n+1+int(body[n])]), body[n+1+int(body[n]):]
 }
