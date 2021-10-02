@@ -72,7 +72,13 @@ func PubEncodeSeq(seq int, topic string, body []byte) []byte {
 	return FIXED_PUBLISH.Encode(idbody)
 }
 
-func PubDecodeSeq(body []byte) (int, string, []byte) {
+func PubDecodeSeq(body []byte) (int, string, []byte, error) {
 	v, n := DecodeVarint(body)
-	return v, string(body[n+1 : n+1+int(body[n])]), body[n+1+int(body[n]):]
+
+	begin := n + 1
+	end := n + 1 + int(body[n])
+	if end <= begin {
+		return 0, "", nil, errors.New("error data")
+	}
+	return v, string(body[n+1 : n+1+int(body[n])]), body[n+1+int(body[n]):], nil
 }
