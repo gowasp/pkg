@@ -80,5 +80,11 @@ func PubDecodeSeq(body []byte) (int, string, []byte, error) {
 	if end <= begin {
 		return 0, "", nil, errors.New("error data")
 	}
+
+	if n+1+int(body[n]) >= len(body) {
+		return 0, "", nil, errors.New("error data")
+
+	}
+
 	return v, string(body[n+1 : n+1+int(body[n])]), body[n+1+int(body[n]):], nil
 }
