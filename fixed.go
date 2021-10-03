@@ -3,6 +3,8 @@ package pkg
 import (
 	"encoding/binary"
 	"errors"
+
+	"go.uber.org/zap"
 )
 
 type Fixed byte
@@ -78,10 +80,12 @@ func PubDecodeSeq(body []byte) (int, string, []byte, error) {
 	begin := n + 1
 	end := n + 1 + int(body[n])
 	if end <= begin {
+		zap.L().Warn("error data")
 		return 0, "", nil, errors.New("error data")
 	}
 
 	if n+1+int(body[n]) >= len(body) {
+		zap.L().Warn("error data")
 		return 0, "", nil, errors.New("error data")
 
 	}
