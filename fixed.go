@@ -47,7 +47,9 @@ func DecodeVarint(b []byte) (int, int) {
 }
 
 func (f Fixed) Encode(body []byte) []byte {
-	ebody := append(EncodeVarint(len(body)), body...)
+	evBody := EncodeVarint(len(body))
+	varintLen := len(evBody)
+	ebody := append([]byte{byte(varintLen)}, evBody...)
 	cbody := append([]byte{byte(f)}, ebody...)
 	return cbody
 }
