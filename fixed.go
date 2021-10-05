@@ -54,7 +54,7 @@ func (f Fixed) Encode(body []byte) []byte {
 	return rbody
 }
 
-func (f Fixed) PubEncode(topic string, body []byte) []byte {
+func PubEncode(topic string, body []byte) []byte {
 	tl := append([]byte{byte(len(topic))}, []byte(topic)...)
 	pubbody := append([]byte{byte(FIXED_PUBLISH)}, tl...)
 	vi := EncodeVarint(len(body))
