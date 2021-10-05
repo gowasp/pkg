@@ -71,12 +71,14 @@ func SubEncode(body []byte) []byte {
 }
 
 func PubEncode(topic string, body []byte) []byte {
-	t := append([]byte(topic), body...)
-	tl := append([]byte{byte(len(topic))}, t...)
-	eb := append(EncodeVarint(len(tl)), tl...)
+	tl := append([]byte{byte(len(topic))}, []byte(topic)...)
+	pub := append([]byte{byte(FIXED_PUBLISH)}, tl...)
 
-	varintLen := len(EncodeVarint(len(tl)))
-	b := append([]byte{byte(varintLen)}, eb...)
+	varintLen := len(EncodeVarint(len(body)))
+	vl := append([]byte{byte(varintLen)}, EncodeVarint(len(body))...)
 
-	return append([]byte{byte(FIXED_PUBLISH)}, b...)
+	eb := append(vl, body...)
+	pub = append(pub, eb...)
+
+	return pub
 }
