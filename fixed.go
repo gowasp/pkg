@@ -58,7 +58,15 @@ func ConnAckEncode(body []byte) []byte {
 	vi := EncodeVarint(len(body))
 	viBody := append([]byte{byte(len(vi))}, vi...)
 	ebody := append(viBody, body...)
-	cbody := append([]byte{byte(FIXED_CONNECT)}, ebody...)
+	cbody := append([]byte{byte(FIXED_CONNACK)}, ebody...)
+	return cbody
+}
+
+func SubEncode(body []byte) []byte {
+	vi := EncodeVarint(len(body))
+	viBody := append([]byte{byte(len(vi))}, vi...)
+	ebody := append(viBody, body...)
+	cbody := append([]byte{byte(FIXED_SUBSCRIBE)}, ebody...)
 	return cbody
 }
 
