@@ -46,39 +46,10 @@ func DecodeVarint(b []byte) (int, int) {
 	return int(u), i
 }
 
-func ConnectEncode(body []byte) []byte {
+func (f Fixed) Encode(body []byte) []byte {
 	vi := EncodeVarint(len(body))
 	viBody := append([]byte{byte(len(vi))}, vi...)
 	ebody := append(viBody, body...)
-	cbody := append([]byte{byte(FIXED_CONNECT)}, ebody...)
+	cbody := append([]byte{byte(f)}, ebody...)
 	return cbody
-}
-
-func ConnAckEncode(body []byte) []byte {
-	vi := EncodeVarint(len(body))
-	viBody := append([]byte{byte(len(vi))}, vi...)
-	ebody := append(viBody, body...)
-	cbody := append([]byte{byte(FIXED_CONNACK)}, ebody...)
-	return cbody
-}
-
-func SubEncode(body []byte) []byte {
-	vi := EncodeVarint(len(body))
-	viBody := append([]byte{byte(len(vi))}, vi...)
-	ebody := append(viBody, body...)
-	cbody := append([]byte{byte(FIXED_SUBSCRIBE)}, ebody...)
-	return cbody
-}
-
-func PubEncode(topic string, body []byte) []byte {
-	tl := append([]byte{byte(len(topic))}, []byte(topic)...)
-	pub := append([]byte{byte(FIXED_PUBLISH)}, tl...)
-
-	varintLen := len(EncodeVarint(len(body)))
-	vl := append([]byte{byte(varintLen)}, EncodeVarint(len(body))...)
-
-	eb := append(vl, body...)
-	pub = append(pub, eb...)
-
-	return pub
 }
