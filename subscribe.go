@@ -1,11 +1,10 @@
 package pkg
 
 import (
-	"context"
 	"sync"
 )
 
-type SubFunc func(context.Context, []byte) error
+type SubFunc func([]byte) error
 
 type Subscribe struct {
 	subMap sync.Map
