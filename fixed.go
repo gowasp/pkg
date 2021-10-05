@@ -57,7 +57,10 @@ func ConnectEncode(body []byte) []byte {
 func PubEncode(topic string, body []byte) []byte {
 	t := append([]byte(topic), body...)
 	tl := append([]byte{byte(len(topic))}, t...)
-	b := append(EncodeVarint(len(tl)), tl...)
+	eb := append(EncodeVarint(len(tl)), tl...)
+
+	varintLen := len(EncodeVarint(len(tl)))
+	b := append([]byte{byte(varintLen)}, eb...)
 
 	return append([]byte{byte(FIXED_PUBLISH)}, b...)
 }
