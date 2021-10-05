@@ -46,16 +46,12 @@ func DecodeVarint(b []byte) (int, int) {
 	return int(u), i
 }
 
-func (f Fixed) Encode(body []byte) []byte {
+func ConnectEncode(body []byte) []byte {
 	vi := EncodeVarint(len(body))
 	viBody := append([]byte{byte(len(vi))}, vi...)
 	ebody := append(viBody, body...)
-	cbody := append([]byte{byte(f)}, ebody...)
+	cbody := append([]byte{byte(FIXED_CONNECT)}, ebody...)
 	return cbody
-}
-
-func PubDecode(body []byte) ([]byte, []byte) {
-	return body[1 : 1+body[0]], body[1+body[0]:]
 }
 
 func PubEncode(topic string, body []byte) []byte {
@@ -64,29 +60,4 @@ func PubEncode(topic string, body []byte) []byte {
 	b := append(EncodeVarint(len(tl)), tl...)
 
 	return append([]byte{byte(FIXED_PUBLISH)}, b...)
-}
-
-func PubEncodeSeq(seq int, topic string, body []byte) []byte {
-	t := append([]byte(topic), body...)
-	tl := append([]byte{byte(len(topic))}, t...)
-
-	idbody := append(EncodeVarint(seq), tl...)
-	return FIXED_PUBLISH.Encode(idbody)
-}
-
-func PubDecodeSeq(body []byte) (int, string, []byte, error) {
-	v, n := DecodeVarint(body)
-
-	begin := n + 1
-	end := n + 1 + int(body[n])
-	if end <= begin {
-		return 0, "", nil, errors.New("error data")
-	}
-
-	if n+1+int(body[n]) >= len(body) {
-		return 0, "", nil, errors.New("error data")
-
-	}
-
-	return v, string(body[n+1 : n+1+int(body[n])]), body[n+1+int(body[n]):], nil
 }
