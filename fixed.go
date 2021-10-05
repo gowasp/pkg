@@ -54,6 +54,14 @@ func ConnectEncode(body []byte) []byte {
 	return cbody
 }
 
+func ConnAckEncode(body []byte) []byte {
+	vi := EncodeVarint(len(body))
+	viBody := append([]byte{byte(len(vi))}, vi...)
+	ebody := append(viBody, body...)
+	cbody := append([]byte{byte(FIXED_CONNECT)}, ebody...)
+	return cbody
+}
+
 func PubEncode(topic string, body []byte) []byte {
 	t := append([]byte(topic), body...)
 	tl := append([]byte{byte(len(topic))}, t...)
